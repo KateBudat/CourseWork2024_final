@@ -1,0 +1,33 @@
+<h3>Статистика опо послугам</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID матеріала</th>
+            <th>Назва</th>
+            <th>Кількість в наявності</th>
+            <th>Куплена кількість</th>
+            <th>Списана кількість</th>
+            <th>Найпопулярніша причина списування</th>
+            <th>Використана кількість</th>
+            <th>Найчастіший постачальник</th>
+            <th>Найчастіше використовується</th>
+            
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in material %}
+        <tr>
+            <td>{{ result.id_material|default:'-' }}</td>
+            <td>{{ result.name_material|default:'-' }}</td>
+            <td>{{ result.available_quantity|default:'-' }}</td>
+            <td>{{ result.purchase_frequency|default:'-' }}</td>
+            <td>{{ result.total_written_off|default:'-' }}</td>
+            <td>{{ result.most_common_write_off_reason|default:'-' }}</td>
+            <td>{{ result.total_used|default:'-' }}</td>
+            <td>{{ result.most_frequent_supplier|default:'-' }}</td>
+            <td>{{ result.most_used_in_service|default:'-' }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

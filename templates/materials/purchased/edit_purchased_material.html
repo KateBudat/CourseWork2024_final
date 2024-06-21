@@ -1,0 +1,14 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Редагувати покупку{% endblock %}
+{% block additional_information %}
+    <div class="mb-3 rounded" style="background-color: white; padding: 10px;">
+        <h5>Інформація про матеріал:</h5>
+        <br>
+        <p><strong>Назва:</strong> {{ purchased_material.material.name_material }}</p>
+        <p><strong>Бренд:</strong> {{ purchased_material.material.brand }}</p>
+        <p><strong>Штрих-код:</strong> {{ purchased_material.material.barcode }}</p>
+    </div>
+{% endblock %}
+{% block form_action %}{% url 'edit_purchased_material' purchased_material.id_purchased_material %}{% endblock %}
+{% block button_text %}Зберегти зміни{% endblock %}

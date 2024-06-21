@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between;">
+        <div class="d-flex align-items-center">
+            <h2 class="mb-2 me-4">Матеріали</h2>
+        </div>
+        <form class="d-flex" role="search" action="{% url 'materials' %}" method="get">
+            <input class="form-control me-2 mb-2" type="search" name="query" value="{{ query | default_if_none:'' }}" placeholder="Пошук" aria-label="Search">
+            <button class="me-2 mb-2 btn btn-outline-success" type="submit">Пошук</button>
+        </form>
+    </div>
+
+    <ul class="nav nav-underline mt-4">
+        <li class="nav-item me-4">
+            <a class="nav-link active text-purple" aria-current="page" data-bs-toggle="tab" href="#materials">Матеріали</a>
+        </li>
+        <li class="nav-item me-4">
+            <a class="nav-link text-purple" data-bs-toggle="tab" href="#purchased-materials">Куплені матеріали</a>
+        </li>
+        <li class="nav-item me-4">
+            <a class="nav-link text-purple" data-bs-toggle="tab" href="#used-materials">Використані матеріали</a>
+        </li>
+        <li class="nav-item me-4">
+            <a class="nav-link text-purple" data-bs-toggle="tab" href="#write-off-materials">Списані матеріали</a>
+        </li>
+        <li class="nav-item me-4">
+            <a class="nav-link text-purple" data-bs-toggle="tab" href="#suppliers">Постачальники</a>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-4 bg-white p-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="materials" role="tabpanel" aria-labelledby="materials-tab">
+            <!-- Вміст для матеріалів -->
+            {% include 'materials/materials/display_materials.html' %}
+        </div>
+        <div class="tab-pane fade" id="purchased-materials" role="tabpanel" aria-labelledby="purchased-materials-tab">
+            <!-- Вміст для куплених матеріалів -->
+            {% include 'materials/purchased/display_purchased_materials.html' %}
+        </div>
+        <div class="tab-pane fade" id="used-materials" role="tabpanel" aria-labelledby="used-materials-tab">
+            <!-- Вміст для використаних матеріалів -->
+            {% include 'materials/used/display_used_materials.html' %}
+        </div>
+        <div class="tab-pane fade" id="write-off-materials" role="tabpanel" aria-labelledby="write-off-materials-tab">
+            <!-- Вміст для списаних матеріалів -->
+            {% include 'materials/write_off/display_write_off_materials.html' %}
+        </div>
+        <div class="tab-pane fade" id="suppliers" role="tabpanel" aria-labelledby="suppliers-tab">
+            <!-- Вміст для постачальників -->
+            {% include 'materials/suppliers/display_suppliers.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

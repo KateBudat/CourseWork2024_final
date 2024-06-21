@@ -1,0 +1,29 @@
+<h3>Статистика опо послугам</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID послуги</th>
+            <th>Назва</th>
+            <th>Загальна кількість записів</th>
+            <th>Виконані записи</th>
+            <th>Скасовані записи</th>
+            <th>Записи в очікуванні</th>
+            <th>Загальний дохід</th>
+            <th>Чистий прибуток</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in service_registration %}
+        <tr>
+            <td>{{ result.service_id }}</td>
+            <td>{{ result.service_name }}</td>
+            <td>{{ result.total_registrations }}</td>
+            <td>{{ result.completed_registrations }}</td>
+            <td>{{ result.cancelled_registrations }}</td>
+            <td>{{ result.pending_registrations }}</td>
+            <td>{{ result.total_income }}</td>
+            <td>{{ result.net_income }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

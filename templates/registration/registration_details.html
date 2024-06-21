@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Інформація про запис: </h1>
+    <br>
+    <div class="col-md-9 container bg-white rounded-lg">
+    <br>
+        <div class="col-md-11 d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">{{ registration.service_details.service }} </h2>
+                <div>
+                    <a class="icon-link me-3" href="{% url 'edit_registration' registration.id_registration %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="icon-link" href="{% url 'delete_registration' registration.id_registration %}">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </div>
+        </div>
+    <br>
+        <div class="col-md-6">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td><b>ID:</b></td>
+                    <td>{{ registration.id_registration }}</td>
+                </tr>
+                <tr> 
+                    <td><b>Початок:</b></td>
+                    <td>{{ registration.registration_date }}, {{ registration.start_time }}  </td>
+                </tr>
+                <tr>
+                    <td><b>Кінець:</b></td>
+                    <td>{{ registration.registration_date }}, {{ registration.service_details.service.time_service }}  </td>
+                </tr>
+                <tr>
+                    <td><b>Клієнт:</b></td>
+                    <td>{{ registration.client }}</td>
+                </tr>
+                <tr>
+                    <td><b>Телефон клієнта:</b></td>
+                    <td>{{ registration.client.telephone_number }} </td>
+                </tr>
+                <tr>
+                    <td><b>Послуга:</b></td>
+                    <td>{{ registration.service_details.service }} </td>
+                </tr>
+                <tr>
+                    <td><b>Майстер:</b></td>
+                    <td>{{ registration.service_details.master }}</td>
+                </tr>
+                <tr>
+                    <td><b>Телефон майстра:</b></td>
+                    <td>{{ registration.service_details.master.telephone_number }} </td>
+                </tr>
+                <tr>
+                    <td><b>Вартість:</b></td>
+                    <td>{{ registration.service_details.service.cost_service }} грн.</td>
+                </tr>
+                <tr>
+                    <td><b>Процент майстру:</b></td>
+                    <td>{{ registration.service_details.service.percent_for_master }} %</td>
+                </tr>
+                <tr>
+                    <td><b>Статус:</b></td>
+                    <td>{{ registration.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>    
+    <br>
+    <div class="col-md-12">
+        <h2>Використані матеріали: </h2>
+       
+        <table class="table table-hover" >
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Назва</th>
+                    <th scope="col">Бренд</th>
+                    <th scope="col">Штрих-код</th>
+                    <th scope="col">Використана кількість</th>
+                    <th colspan="2"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for used_material in used_materials %}
+                <tr>
+                    <td>{{ used_material.id_used_material }}</td>
+                    <td>{{ used_material.material.name_material }}</td>
+                    <td>{{ used_material.material.brand }}</td>
+                    <td>{{ used_material.material.barcode }}</td>
+                    <td>{{ used_material.used_amount }}</td>
+                    <td> 
+                        <a class="icon-link" href="{% url 'edit_service' used_material.material.id_material %}">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="icon-link" href="{% url 'delete_used_material' used_material.id_used_material %}">
+                            <i class="bi bi-dash-lg text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-grid gap-2 d-md-flex justify-content-between">
+            <a href="{% url 'registrations' %}" class="btn btn-outline-danger">Назад</a>
+            <button class="btn btn-outline-success me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#addUsedMaterialModal">Додати використані матеріали +</button>
+        </div>
+    <br>
+    </div>
+</div>
+    
+    
+    <!-- Модальне вікно -->
+    <div class="modal fade" id="addUsedMaterialModal" tabindex="-1" aria-labelledby="addUsedMateriaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addServiceModalLabel">Додати матеріал</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body ">
+                    <table class="table table-hover" >
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Назва</th>
+                                <th scope="col">Бренд</th>
+                                <th scope="col">Штрих-код</th>
+                                <th scope="col">В наявності</th>
+                                <th colspan="2"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for material in available_materials %}
+                            <tr>
+                                <td>{{ material.id_material }}</td>
+                                <td>{{ material.name_material }}</td>
+                                <td>{{ material.brand }}</td>
+                                <td>{{ material.barcode }}</td>
+                                <td>{{ material.available_quantity }}</td>
+                                <td> 
+                                    <a class="icon-link" href="{% url 'add_used_material_to_registration' registration.id_registration material.id_material %}">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'table_display_template.html' %}
+
+{% block title %}Клієнти{% endblock %}
+{% block add_url %}{% url 'add_client' %}{% endblock %}
+{% block add_link_text %}Додати клієнта +{% endblock %}
+
+{% block table_headers %}
+    <th scope="col">ID</th>
+    <th scope="col">Ім'я</th>
+    <th scope="col">Прізвище</th>
+    <th scope="col">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Стать
+        </a>
+        <ul class="dropdown-menu dropdown-menu-horizontal" aria-labelledby="genderDropdown">
+            <li><a class="dropdown-item" href="?gender=">Всі</a></li>
+            <li><a class="dropdown-item" href="?gender=жінка">Жінка</a></li>
+            <li><a class="dropdown-item" href="?gender=чоловік">Чоловік</a></li>
+        </ul>
+    </th>
+    <th scope="col">Дата народження</th>
+    <th scope="col">Номер телефону</th>
+    <th scope="col">Нотатки</th>
+    <th scope="col" colspan="2"> </th>
+{% endblock %}
+
+{% block table_rows %}
+{% for client in clients %}
+<tr>
+    <td>{{ client.id_client }}</td>
+    <td>{{ client.first_name }}</td>
+    <td>{{ client.second_name }}</td>
+    <td>{{ client.gender }}</td>
+    <td>{{ client.date_of_birth|date:"d F Y" }}</td>
+    <td>{{ client.telephone_number }}</td>
+    <td> {% if client.note %} {{ client.note }} {% else %} - {% endif %}</td> 
+    <td> 
+        <a class="icon-link" href="{% url 'edit_client' client.id_client %}">
+          <i class="bi bi-pencil-square"></i>
+        </a>
+    </td>
+    <td>
+        <a class="icon-link" href="{% url 'delete_client' client.id_client %}">
+            <i class="bi bi-trash3-fill text-danger"></i>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

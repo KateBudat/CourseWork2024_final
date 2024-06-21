@@ -1,0 +1,48 @@
+{% extends 'registration/add_edit_base.html' %}
+
+{% block page_title %}Редагувати реєстрацію{% endblock %}
+
+{% block form_fields %}
+    <div class="form-group mb-3">
+        <label for="id_client" class="form-label">Клієнт:</label>
+        <select name="client" id="id_client" class="form-control select2">
+            <option value="">Обрати клієнта</option>
+            {% for client in clients %}
+                <option value="{{ client.id_client }}" {% if client.id_client == registration.client.id_client %}selected{% endif %}>{{ client.first_name }} {{ client.second_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group mb-3">
+        <label for="id_registration_date" class="form-label">Дата реєстрації:</label>
+        <input type="date" name="registration_date" id="id_registration_date" class="form-control" value="{{ registration.registration_date|date:'Y-m-d' }}">
+    </div>
+    <div class="form-group mb-3">
+        <label for="id_start_time" class="form-label">Час початку:</label>
+        <input type="time" name="start_time" id="id_start_time" class="form-control" value="{{ registration.start_time }}">
+    </div>
+    <div class="form-group mb-3">
+    <label for="id_service" class="form-label">Послуга:</label>
+    <select name="service" id="id_service" class="form-control select2" style="width: 75%" onchange="updateMasters()">
+        <option value="">Обрати послугу</option>
+        {% for service in services %}
+            <option value="{{ service.id_service }}" {% if service.id_service == registration.service_details.service.id_service %}selected{% endif %}>{{ service.name_service }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+    <div class="form-group mb-3">
+        <label for="id_master" class="form-label">Майстер:</label>
+        <select name="service_details" id="id_master" class="form-control select2">
+            <option value="">Обрати майстра</option>
+            {% for detail in service_details %}
+                {% if detail.id_service_details == registration.service_details.id_service_details %}
+                    <option value="{{ detail.id_service_details }}" selected>{{ detail.master.first_name }} {{ detail.master.second_name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+
+{% endblock %}
+
+{% block submit_button_text %}Зберегти зміни{% endblock %}

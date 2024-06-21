@@ -1,0 +1,35 @@
+{% extends 'materials/display_materials_template.html' %}
+
+{% block table_headers %}
+                <th scope="col">ID</th>
+                <th scope="col">Назва</th>
+                <th scope="col">Бренд</th>
+                <th scope="col">Штрих-код</th>
+                <th scope="col">Дата списання</th>
+                <th scope="col">Кількість</th>
+                <th scope="col">Причина</th>
+                <th colspan="2"> </th>
+{% endblock %}
+{% block table_rows %}
+            {% for write_off_material in write_off_materials %}
+            <tr>
+                <td>{{ write_off_material.id_write_off_material }}</td>
+                <td>{{ write_off_material.purchased_material.material.name_material }}</td>
+                <td>{{ write_off_material.purchased_material.material.brand }}</td>
+                <td>{{ write_off_material.purchased_material.material.barcode }}</td>
+                <td>{{ write_off_material.write_off_date }}</td>
+                <td>{{ write_off_material.amount }}</td>
+                <td>{{ write_off_material.reason }}</td>
+                <td> 
+                    <a class="icon-link" href="{% url 'edit_write_off_material' write_off_material.id_write_off_material %}">
+                      <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="icon-link" href="{% url 'delete_write_off_material' write_off_material.id_write_off_material %}">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </td>
+            </tr>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'materials/display_materials_template.html' %}
+{% block add_button %}
+    <div class="d-flex justify-content-end mb-2">
+        <a href="{% url 'add_material' %}" class="btn btn-outline-success">Додати матеріал +</a>
+    </div>
+{% endblock %}
+
+{% block table_headers %}
+            <th scope="col">ID</th>
+            <th scope="col">Назва</th>
+            <th scope="col">Бренд</th>
+            <th scope="col">Штрих-код</th>
+            <th scope="col">Наявна кількість</th>
+            <th colspan="3"> </th>
+{% endblock %}
+{% block table_rows %}
+        {% for material in material_info %}
+        <tr>
+            <td>{{ material.id_material }}</td>
+            <td>{{ material.name_material }}</td>
+            <td>{{ material.brand }}</td>
+            <td>{{ material.barcode }}</td>
+            <td>{{ material.available_quantity }}</td>
+            <td> 
+                <a class="icon-link" href="{% url 'add_purchased_material' material.id_material %}" data-bs-toggle="tooltip" title="Додати куплений матеріал">
+                    <i class="bi bi-bag-plus text-success"></i>
+                </a>
+            </td>
+            <td> 
+                <a class="icon-link" href="{% url 'edit_material' material.id_material %}" data-bs-toggle="tooltip" title="Редагувати матеріал">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+            </td>
+            <td>
+                <a class="icon-link" href="{% url 'delete_material' material.id_material %}" data-bs-toggle="tooltip" title="Видалити матеріал">
+                    <i class="bi bi-trash3-fill text-danger"></i>
+                </a>
+            </td>
+
+        </tr>
+        {% endfor %}
+{% endblock %}

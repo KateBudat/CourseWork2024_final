@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between;">
+        <div class="d-flex align-items-center">
+            <h2 class="mb-2 me-4">{% block title %}{% endblock %}</h2>
+            <a href="{% block add_url %}{% endblock %}" class="btn btn-outline-success">
+                {% block add_link_text %}{% endblock %}
+            </a>
+        </div>
+       <form class="d-flex" role="search" method="get">
+            <input class="form-control me-2 mb-2" type="search" name="query" value="{{ query | default_if_none:'' }}" placeholder="Пошук" aria-label="Search">
+            <button class="me-2 mb-2 btn btn-outline-success" type="submit">Пошук</button>
+       </form>
+    </div>
+
+    <div style="margin-top: 20px;"></div>
+
+    <table class="table table-hover" >
+        <thead>
+        <tr>
+            {% block table_headers %}{% endblock %}
+        </tr>
+        </thead>
+
+        <tbody>
+            {% block table_rows %}{% endblock %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

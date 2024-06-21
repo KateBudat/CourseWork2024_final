@@ -1,0 +1,14 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Додати покупку{% endblock %}
+{% block additional_information %}
+    <div class="mb-3 rounded" style="background-color: white; padding: 10px;">
+        <h5>Інформація про матеріал:</h5>
+        <br>
+        <p><strong>Назва:</strong> {{ material.name_material }}</p>
+        <p><strong>Бренд:</strong> {{ material.brand }}</p>
+        <p><strong>Штрих-код:</strong> {{ material.barcode }}</p>
+    </div>
+{% endblock %}
+{% block form_action %}{% url 'add_purchased_material' material.id_material %}{% endblock %}
+{% block button_text %}Додати покупку{% endblock %}

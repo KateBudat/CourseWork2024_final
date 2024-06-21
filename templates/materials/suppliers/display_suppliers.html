@@ -1,0 +1,36 @@
+{% extends 'materials/display_materials_template.html' %}
+{% block add_button %}
+    <div class="d-flex justify-content-end mb-2">
+        <a href="{% url 'add_supplier' %}" class="btn btn-outline-success">Додати постачальника +</a>
+    </div>
+{% endblock %}
+
+{% block table_headers %}
+<th scope="col">ID</th>
+<th scope="col">Назва компанії</th>                
+<th scope="col">Контактна особа</th>                
+<th scope="col">Контактний телефон</th>                
+<th colspan="2"> </th>                                
+{% endblock %}
+
+{% block table_rows %}
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.id_supplier }}</td>
+                <td>{{ supplier.company_name }}</td>
+                <td>{{ supplier.contact_person }}</td>
+                <td>{{ supplier.contact_telephone }}</td>
+                <td> 
+                    <a class="icon-link" href="{% url 'edit_supplier' supplier.id_supplier %}">
+                      <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="icon-link" href="{% url 'delete_supplier' supplier.id_supplier %}">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,17 @@
+<div class="container">
+    {% block add_button %}{% endblock %}
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                {% block table_headers %}
+                {% endblock %}
+            </tr>
+        </thead>
+        <tbody>
+            {% block table_rows %}
+            {% endblock %}
+        </tbody>
+    </table>
+</div>
+

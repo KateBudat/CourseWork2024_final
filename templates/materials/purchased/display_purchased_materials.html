@@ -1,0 +1,43 @@
+{% extends 'materials/display_materials_template.html' %}
+
+{% block table_headers %}
+<th scope="col">ID</th>
+<th scope="col" style="width: 200px;">Назва</th>
+<th scope="col" style="width: 10px;">Бренд</th>
+<th scope="col">Постачальник</th>
+<th scope="col">Ціна купівлі</th>
+<th scope="col">Шт.</th>
+<th scope="col">Строк придатності</th>
+<th scope="col">Дата купівлі</th>
+<th colspan="2"> </th>
+{% endblock %}
+
+{% block table_rows %}
+{% for purchased_material in purchased_materials %}
+<tr>
+    <td>{{ purchased_material.id_purchased_material }}</td>
+    <td>{{ purchased_material.material.name_material }}</td>
+    <td>{{ purchased_material.material.brand }}</td>
+    <td data-bs-toggle="tooltip" title="{{ purchased_material.supplier.contact_person }}: {{ purchased_material.supplier.contact_telephone }}">{{ purchased_material.supplier.company_name }}</td>
+    <td>{{ purchased_material.purchase_price }} грн.</td>
+    <td>{{ purchased_material.purchased_quantity }}</td>
+    <td>{{ purchased_material.expiration_date|date:"d-m-Y" }}</td>
+    <td>{{ purchased_material.purchase_date|date:"d-m-Y" }}</td>
+    <td>
+        <a class="icon-link" href="{% url 'add_write_off_material' purchased_material.id_purchased_material %}" data-bs-toggle="tooltip" title="Списати">
+            <i class="bi bi-dash-circle text-danger"></i>
+        </a>
+    </td>
+    <td> 
+        <a class="icon-link" href="{% url 'edit_purchased_material' purchased_material.id_purchased_material %}" data-bs-toggle="tooltip" title="Редагувати запис">
+          <i class="bi bi-pencil-square"></i>
+        </a>
+    </td>
+    <td>
+        <a class="icon-link" href="{% url 'delete_purchased_material' purchased_material.id_purchased_material %}" data-bs-toggle="tooltip" title="Видалити запис">
+            <i class="bi bi-trash3-fill text-danger"></i>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,35 @@
+<h3>Статистика по роботі майстрів</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID майстра</th>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Загальна кількість записів</th>
+            <th>Виконані записи</th>
+            <th>Скасовані записи</th>
+            <th>Записи в очікуванні</th>
+            <th>Загальний заробіток</th>
+            <th>Заробіток майстра</th>
+            <th>Заробіток салону</th>
+            <th>Середня вартість візиту</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in master_service %}
+        <tr>
+            <td>{{ result.master_id }}</td>
+            <td>{{ result.first_name }}</td>
+            <td>{{ result.second_name }}</td>
+            <td>{{ result.total_registrations }}</td>
+            <td>{{ result.total_registrations }}</td>
+            <td>{{ result.completed_registrations }}</td>
+            <td>{{ result.cancelled_registrations }}</td>
+            <td>{{ result.pending_registrations }}</td>
+            <td>{{ result.total_earnings }}</td>
+            <td>{{ result.salon_earnings }}</td>
+             <td>{{ result.average_visit_cost }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,19 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Редагувати запис про списання{% endblock %}
+{% block additional_information %}
+    <div class="mb-3 rounded" style="background-color: white; padding: 10px;">
+        <h5>Інформація про покупку:</h5>
+        <br>
+        <p><strong>Назва:</strong> {{ write_off_material.purchased_material.material.name_material  }}</p>
+        <p><strong>Бренд:</strong> {{ write_off_material.purchased_material.material.brand }}</p>
+        <p><strong>Штрих-код:</strong> {{ write_off_material.purchased_material.material.barcode }}</p>
+        <p><strong>Постачальник:</strong> {{ write_off_material.purchased_material.supplier.company_name }} - {{ purchased_material.supplier.contact_person }}</p>
+        <p><strong>Ціна купівлі:</strong> {{ write_off_material.purchased_material.purchase_price }}</p>
+        <p><strong>Куплено шт.:</strong> {{ write_off_material.purchased_material.purchased_quantity }}</p>
+        <p><strong>Строк придатності:</strong> {{ write_off_material.purchased_material.expiration_date }}</p>
+        <p><strong>Дата купівлі:</strong> {{ write_off_material.purchased_material.purchase_date }}</p>
+    </div>
+{% endblock %}
+{% block form_action %}{% url 'edit_write_off_material' write_off_material.id_write_off_material %}{% endblock %}
+{% block button_text %}Зберегти зміни{% endblock %}

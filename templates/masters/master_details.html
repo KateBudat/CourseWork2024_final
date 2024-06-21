@@ -1,0 +1,138 @@
+<!-- master_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+     <h1>Інформація про майстра: </h1>
+    <br>
+    <div class="container bg-white rounded-lg">
+    <br>
+        <div class="col-md-4 d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">{{ master.first_name }} {{ master.second_name }} </h2>
+                <div>
+                    <a class="icon-link me-3" href="{% url 'edit_master' master.id_master %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="icon-link" href="{% url 'delete_master' master.id_master %}">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </div>
+        </div>
+    <br>
+        <div class="col-md-6">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td><b>ID:</b></td>
+                    <td>{{ master.id_master }}</td>
+                </tr>
+                <tr> 
+                    <td><b>Стать:</b></td>
+                    <td>{{ master.gender }} </td>
+                </tr>
+                <tr>
+                    <td> <b>Номер Телефону:</b></td>
+                    <td>{{ master.telephone_number }} </td>
+                </tr>
+                <tr>
+                    <td><b>Спеціалізація:</b></td>
+                    <td>{{ master.specialization }} </td>
+                </tr>
+                <tr>
+                    <td><b> Дата прийняття на роботу:</b> </td>
+                    <td>{{ master.hire_date|date:"d F Y" }} </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>    
+    <br>
+    <div class="col-md-12">
+        <h2>Послуги, які надає: </h2>
+       
+        <table class="table table-hover" >
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Назва</th>
+                    <th scope="col">Тип послуги</th>
+                    <th scope="col">Тривалість</th>
+                    <th scope="col">Вартість</th>
+                    <th scope="col">Процент майстра</th>
+                    <th colspan="2"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service_detail in services %}
+                <tr>
+                    <td>{{ service_detail.service.id_service }}</td>
+                    <td>{{ service_detail.service.name_service }}</td>
+                    <td>{{ service_detail.service.type_service }}</td>
+                    <td>{{ service_detail.service.time_service }} хв. </td>
+                    <td>{{ service_detail.service.cost_service }} грн. </td>
+                    <td>{{ service_detail.service.percent_for_master }} %</td>
+                    <td> 
+                        <a class="icon-link" href="{% url 'edit_service' service_detail.service.id_service %}">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="icon-link" href="{% url 'delete_service_detail' service_detail.id_service_details %}">
+                            <i class="bi bi-dash-lg text-danger"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-grid gap-2 d-md-flex justify-content-between">
+            <a href="{% url 'masters' %}" class="btn btn-outline-danger">Назад до майстрів</a>
+            <button class="btn btn-outline-success me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#addServiceModal">Додати послугу майстру +</button>
+        </div>
+    <br>
+    </div>
+</div>
+    
+    
+    <!-- Модальне вікно -->
+    <div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addServiceModalLabel">Додати послугу майстру</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body ">
+                    <table class="table table-hover" >
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Назва</th>
+                                <th scope="col">Тип послуги</th>
+                                <th scope="col">Тривалість</th>
+                                <th scope="col">Вартість</th>
+                                <th scope="col">Процент майстра</th>
+                                <th colspan="2"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in missing_deleted_services %}
+                            <tr>
+                                <td>{{ service.id_service }}</td>
+                                <td>{{ service.name_service }}</td>
+                                <td>{{ service.type_service }}</td>
+                                <td>{{ service.time_service }} хв. </td>
+                                <td>{{ service.cost_service }} грн. </td>
+                                <td>{{ service.percent_for_master }} %</td>
+                                <td> 
+                                    <a class="icon-link" href="{% url 'add_service_to_master' master.id_master service.id_service %}">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

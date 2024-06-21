@@ -1,0 +1,34 @@
+{% extends 'materials/display_materials_template.html' %}
+
+{% block table_headers %}
+<th scope="col">ID</th>
+<th scope="col">Назва</th>
+<th scope="col">Бренд</th>
+<th scope="col">Штрих-код</th>
+<th scope="col">Реєстрація</th>
+<th scope="col">Використана кількість</th>
+<th colspan="2"> </th>
+{% endblock %}
+
+{% block table_rows %}
+{% for used_material in used_materials %}
+<tr>
+    <td>{{ used_material.id_used_material }}</td>
+    <td>{{ used_material.material.name_material }}</td>
+    <td>{{ used_material.material.brand }}</td>
+    <td>{{ used_material.material.barcode }}</td>
+    <td>ID {{ used_material.registration.id_registration }}</td>
+    <td>{{ used_material.used_amount }}</td>
+    <td> 
+        <a class="icon-link" href="{% url 'edit_used_material' used_material.id_used_material %}">
+          <i class="bi bi-pencil-square"></i>
+        </a>
+    </td>
+    <td>
+        <a class="icon-link" href="{% url 'delete_used_material' used_material.id_used_material %}">
+            <i class="bi bi-trash3-fill text-danger"></i>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

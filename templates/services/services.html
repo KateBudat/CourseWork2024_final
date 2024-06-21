@@ -1,0 +1,38 @@
+{% extends 'table_display_template.html' %}
+
+{% block title %}Послуги{% endblock %}
+{% block add_url %}{% url 'add_service' %}{% endblock %}
+{% block add_link_text %}Додати послугу +{% endblock %}
+
+{% block table_headers %}
+                <th scope="col">ID</th>
+                <th scope="col">Назва</th>
+                <th scope="col">Тип послуги</th>
+                <th scope="col">Тривалість</th>
+                <th scope="col">Вартість</th>
+                <th scope="col">Процент майстра</th>
+                <th colspan="2"> </th>
+{% endblock %}
+
+{% block table_rows %}
+            {% for service in services %}
+            <tr>
+                <td>{{ service.id_service }}</td>
+                <td>{{ service.name_service }}</td>
+                <td>{{ service.type_service }}</td>
+                <td>{{ service.time_service }} хв. </td>
+                <td>{{ service.cost_service }} грн. </td>
+                <td>{{ service.percent_for_master }} %</td>
+                <td> 
+                    <a class="icon-link" href="{% url 'edit_service' service.id_service %}">
+                      <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="icon-link" href="{% url 'delete_service' service.id_service %}">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+{% endblock %}

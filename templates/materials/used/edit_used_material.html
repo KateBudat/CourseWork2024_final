@@ -1,0 +1,14 @@
+{% extends 'form_template.html' %}
+
+{% block title %}Редагувати запис про використання{% endblock %}
+{% block additional_information %}
+    <div class="mb-3 rounded" style="background-color: white; padding: 10px;">
+        <h5>Інформація про матеріал:</h5>
+        <br>
+        <p><strong>Назва:</strong> {{ used_material.material.name_material }}</p>
+        <p><strong>Бренд:</strong> {{ used_material.material.brand }}</p>
+        <p><strong>Штрих-код:</strong> {{ used_material.material.barcode }}</p>
+    </div>
+{% endblock %}
+{% block form_action %}{% url 'edit_used_material' used_material.id_used_material %}{% endblock %}
+{% block button_text %}Зберегти зміни{% endblock %}

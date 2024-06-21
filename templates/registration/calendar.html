@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% block extra_content %}
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.13/index.global.min.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script>
+    var colormapMaster = [
+        '#ffb3ba', '#ffdfba', '#ffffba', '#baffc9', 
+        '#bae1ff', '#fff4e6', '#f2e2ff', '#dadae3', 
+        '#e5d0ff', '#dabcff', '#cca3ff', '#bf8bff'
+];
+    function getColorMaster(index) {
+        return colormapMaster[index % colormapMaster.length];
+    }
+
+    var colormapStatus = [
+        '#ffb3ba', '#ffffba', '#baffc9',
+];
+    function getColorStatus(index) {
+        return colormapStatus[index % colormapStatus.length];
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listDay'
+                },
+                buttonText: {
+                    today: 'Сьогодні', // Зміна тексту кнопки "Сьогодні"
+                    month: 'Місяць',   // Зміна тексту кнопки "Місяць"
+                    week: 'Тиждень',   // Зміна тексту кнопки "Тиждень"
+                    day: 'День',        // Зміна тексту кнопки "День"
+                    list: 'Список'
+                },
+                eventTimeFormat: { // like '14:30:00'
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        meridiem: false
+                      },
+                dayMaxEvents: true,
+                events: {{ events|safe }},
+                locale: 'uk',          
+                eventColor: 'green',
+                
+                eventClick: function(info) {
+                var event = info.event;
+                var eventDetails = `
+                        <p><strong>Початок:</strong> ${event.start.toLocaleString()}</p>
+                        <p><strong>Кінець:</strong> ${event.end ? event.end.toLocaleString() : 'N/A'}</p>
+                        <p><strong>Клієнт:</strong> ${event.extendedProps.client || 'N/A'}</p>
+                        <p><strong>Послуга:</strong> ${event.extendedProps.service || 'N/A'}</p>
+                        <p><strong>Майстер:</strong> ${event.extendedProps.master || 'N/A'}</p>
+                        <p><strong>Вартість:</strong> ${event.extendedProps.cost || 'N/A'} грн</p>
+                        <p><strong>Процент майстру:</strong> ${event.extendedProps.percent || 'N/A'} %</p>
+                        <p><strong>Статус:</strong> ${event.extendedProps.status || 'N/A'}</p>
+                    `;
+                    document.getElementById('eventDetails').innerHTML = eventDetails;
+                    var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                    eventModal.show();
+
+                    // Додаємо id події до кнопок для подальшої обробки
+                    document.getElementById('markAsDone').dataset.eventId = event.id;
+                    document.getElementById('markAsCancelled').dataset.eventId = event.id;
+                    document.getElementById('editEvent').dataset.eventId = event.id;
+                    document.getElementById('deleteEvent').dataset.eventId = event.id;
+                    
+                    var addUsedMaterialsUrl = `{% url 'registration_details' 0 %}`;
+                    addUsedMaterialsUrl = addUsedMaterialsUrl.replace('/0/', `/${event.id}/`);
+                    document.getElementById('addUsedMaterials').href = addUsedMaterialsUrl;
+                },
+
+                dateClick: function(info) {
+                    var date = info.dateStr;
+                    calendar.changeView('listDay', date);
+                },
+
+            });
+            calendar.render();
+             // Обробка кліку на кнопку "Виконано"
+            document.getElementById('markAsDone').addEventListener('click', function() {
+                var eventId = this.dataset.eventId;
+                window.location.href = `/registrations/mark_as_done/${eventId}/`;
+            });
+
+            // Обробка кліку на кнопку "Скасовано"
+            document.getElementById('markAsCancelled').addEventListener('click', function() {
+                var eventId = this.dataset.eventId;
+                window.location.href = `/registrations/mark_as_cancelled/${eventId}/`;
+            });
+
+            // Обробка кліку на кнопку "Редагувати"
+            document.getElementById('editEvent').addEventListener('click', function() {
+                var eventId = this.dataset.eventId;
+                window.location.href = `/registrations/edit_registration/${eventId}/`;
+            });
+
+            // Обробка кліку на кнопку "Видалити"
+            document.getElementById('deleteEvent').addEventListener('click', function() {
+                var eventId = this.dataset.eventId;
+                window.location.href = `/registrations/delete_registration/${eventId}/`;
+            });
+        
+            document.getElementById('applyDate').addEventListener('click', function() {
+                var selectedDate = document.getElementById('selectedDate').value;
+                calendar.gotoDate(selectedDate);
+            });
+        });
+
+    </script>
+    <style>
+    
+    .custom-event-dot {
+    background-color: #ffdfba !important; /* Замість #ffdfba використовуйте колір, який ви отримуєте з getColorMaster */
+}
+
+      .fc .fc-button {
+        background-color: #4CAF50; /* Колір фону кнопок */
+        border-color: #4CAF50; /* Колір бордюру кнопок */
+        color: #FFFFFF; /* Колір тексту кнопок */
+      }
+      .fc .fc-button:hover {
+        background-color: #198754; /* Колір фону кнопок при наведенні */
+        border-color: #198754; /* Колір бордюру кнопок при наведенні */
+      }
+      .fc .fc-button:focus {
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Колір тіні кнопок при фокусуванні */
+      }
+      .fc .fc-button-primary:not(:disabled):active, .fc .fc-button-primary:not(:disabled).fc-button-active {
+        background-color: #198754; /* Колір фону активних кнопок */
+        border-color: #198754; /* Колір бордюру активних кнопок */
+      }
+      .fc   .fc-toolbar-title {
+          color: #51308D; /* Колір тексту заголовку календаря */
+      }
+      .fc-event-title {
+            color: #157347; /* Колір тексту подій */
+      }
+      
+    </style>
+{% endblock %}
+
+{% block content %}
+<form id="filterForm" method="GET" action="{% url 'registrations' %}" class="mb-2">
+    <div class="row align-items-center">
+        <div class="col-md-7">
+            <div class="d-flex justify-content-start align-items-center">
+                <a href="{% url 'add_registration' %}" class="btn btn-outline-success">Додати подію +</a>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="d-flex flex-column align-items-start">
+                        <label for="selectedDate">Дата:</label>
+                        <input type="date" id="selectedDate" name="selectedDate" class="form-control mb-2">
+                        <input type="button" class="btn btn-outline-success  w-100" id="applyDate" value="Застосувати">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column align-items-start">
+                        <label for="master">Майстер:</label>
+                        <select id="master" name="master" class="form-control mb-2">
+                            <option value="">Всі майстри</option>
+                            {% for master in masters %}
+                                <option value="{{ master.id_master }}">{{ master.first_name }} {{ master.second_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-outline-success  w-100">Застосувати</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    
+<div style="margin-top: 20px;"></div>
+    
+<div id="calendar"></div>
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Деталі події</h5>
+                <div class="ml-auto">
+                    <a class="icon-link" id="editEvent" style="margin-left: 20px;">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="icon-link" id="deleteEvent" style="margin-left: 10px;">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="eventDetails">
+                <!-- Тут буде відображатися детальна інформація про подію -->
+            </div>
+            <div class="d-flex modal-footer"></a>
+                <a href="#" id="addUsedMaterials" class="btn btn-outline-primary">Додати використані матеріали</a>
+
+                <button type="button" id="markAsCancelled" class="btn btn-danger">Скасувати</button>
+                <button type="button" id="markAsDone" class="btn btn-success">Виконано</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

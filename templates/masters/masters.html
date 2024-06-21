@@ -1,0 +1,54 @@
+{% extends 'table_display_template.html' %}
+
+{% block title %}Майстри{% endblock %}
+{% block add_url %}{% url 'add_master' %}{% endblock %}
+{% block add_link_text %}Додати майстра +{% endblock %}
+
+{% block table_headers %}
+    <th scope="col">ID</th>
+    <th scope="col">Ім'я</th>
+    <th scope="col">Прізвище</th>
+    <th scope="col">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="genderDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Стать
+        </a>
+        <ul class="dropdown-menu dropdown-menu-horizontal" aria-labelledby="genderDropdown">
+            <li><a class="dropdown-item" href="?gender=">Всі</a></li>
+            <li><a class="dropdown-item" href="?gender=жінка">Жінка</a></li>
+            <li><a class="dropdown-item" href="?gender=чоловік">Чоловік</a></li>
+        </ul>
+    </th>
+    <th scope="col">Номер телефону</th>
+    <th scope="col">Спеціалізація</th>
+    <th scope="col">Дата прийняття на роботу</th>
+    <th scope="col" colspan="3"> </th>
+{% endblock %}
+
+{% block table_rows %}
+{% for master in masters %}
+<tr>
+    <td>{{ master.id_master }}</td>
+    <td>{{ master.first_name }}</td>
+    <td>{{ master.second_name }}</td>
+    <td>{{ master.gender }}</td>
+    <td>{{ master.telephone_number }}</td>
+    <td>{{ master.specialization }}</td>
+    <td>{{ master.hire_date|date:"d F Y" }}</td>
+    <td> 
+        <a class="icon-link" href="{% url 'master_services' master.id_master %}">
+          <i class="bi bi-person-lines-fill"></i>
+        </a>
+    </td>
+    <td> 
+        <a class="icon-link" href="{% url 'edit_master' master.id_master %}">
+          <i class="bi bi-pencil-square"></i>
+        </a>
+    </td>
+    <td>
+        <a class="icon-link" href="{% url 'delete_master' master.id_master %}">
+            <i class="bi bi-trash3-fill text-danger"></i>
+        </a>
+    </td>
+</tr>
+{% endfor %}
+{% endblock %}

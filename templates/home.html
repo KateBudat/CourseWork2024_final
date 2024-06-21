@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <div class="col-md-4 offset-md-4">
+    {% if current_role != 'connection_user' %}
+
+    {% else %}
+    <br/>   
+    <h1>Увійдіть в систему:</h1>
+    <br/>    
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Логін</label>
+            <input type="text" class="form-control" name="username" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Пароль</label>
+            <input type="password" class="form-control" name="password" required>
+          </div>
+            <br/> 
+          <button type="submit" class="btn btn-outline-success">Увійти</button>
+        </form>
+    </form>
+    {% endif %}
+    </div>
+{% endblock %}
