@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from users.models import Service
+from clients.models import Service
 from .forms import ServiceForm
 import template_views
 

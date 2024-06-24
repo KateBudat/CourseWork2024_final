@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    
-    <div class="col-md-4 offset-md-4">
     {% if current_role != 'connection_user' %}
 
     {% else %}
+    <div class="col-md-4 offset-md-4">
     <br/>   
     <h1>Увійдіть в систему:</h1>
     <br/>    
@@ -24,6 +23,6 @@
           <button type="submit" class="btn btn-outline-success">Увійти</button>
         </form>
     </form>
-    {% endif %}
     </div>
+    {% endif %}
 {% endblock %}

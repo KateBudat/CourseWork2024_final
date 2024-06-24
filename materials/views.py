@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from users.models import Material, Purchased_Material, Used_Material, Write_Off_Material, Supplier
+from django.contrib import messages
+from django.db import connection
+from clients.models import Material, Purchased_Material, Used_Material, Write_Off_Material, Supplier
 from .forms import MaterialForm, SupplierForm, PurchasedMaterialForm, WriteOffMaterialForm, UsedMaterialForm
 import template_views
-from django.contrib import messages
-
-from django.db import connection
 
 
 def get_material_with_info():

@@ -1,5 +1,11 @@
 from django.db import connection, DatabaseError, connections
 from django.conf import settings
+from .models import CustomUser
+
+
+def current_user(request):
+    user = request.user
+    return {'current_user': user}
 
 
 def current_role(request):

@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .utils import set_database_connection
-from .models import UserProfile
+from .models import CustomUser
+
+from template_views import *
+
+
 # Create your views here.
 
 
@@ -12,13 +16,12 @@ def home(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            user_profile = user.userprofile
             login(request, user)
             try:
-                role = user_profile.user_type
+                role = user.role
                 set_database_connection(role)
-                messages.success(request, f'Вітаємо, {user_profile.user}!')
-            except UserProfile.DoesNotExist:
+                messages.success(request, f'Вітаємо, {user}!')
+            except CustomUser.DoesNotExist:
                 messages.error(request, 'Такого користувача не існує')
             return redirect('analytics')
         else:

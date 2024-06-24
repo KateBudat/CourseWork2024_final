@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from users.models import Service
+from clients.models import Service
 
 
 class ServiceForm(forms.ModelForm):

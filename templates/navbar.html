@@ -34,12 +34,17 @@
       <div>
         <ul class="navbar-nav mb-2 mb-lg-0">
         {% if current_role != 'connection_user' %}
+            {% if current_role == 'master_user' %} 
+                <li class="nav-item ">
+                    <a class="nav-link " style="color: #32C16A" href="{% url 'master_services' user.master_id.id_master %}">@{{ current_user }}</a>
+                </li>
+                    {% else %}
+                <li class="nav-item ">
+                    <a class="nav-link disabled" style="color: #32C16A" href="#">@{{ current_user }}</a>
+                </li>
+            {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">Login</a>
+            <a class="nav-link" href="{% url 'logout' %}">Вийти</a>
           </li>
           {% endif %}
         </ul>

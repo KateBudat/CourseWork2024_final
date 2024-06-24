@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.db import connection
 from datetime import datetime, timedelta
+from users.decorators import role_required
 
 
+@role_required(allowed_roles=['master_user', 'owner_user', 'administrator_user'])
 def analytics(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')

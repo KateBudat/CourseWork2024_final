@@ -1,0 +1,38 @@
+{% extends 'table_display_template.html' %}
+
+{% block title %}Співробітники{% endblock %}
+{% block add_url %}{% url 'add_staff' %}{% endblock %}
+{% block add_link_text %}Додати співробітника +{% endblock %}
+
+{% block table_headers %}
+                <th scope="col">ID</th>
+                <th scope="col">Нікнейм</th>
+                <th scope="col">Тип послуги</th>
+                <th scope="col">Тривалість</th>
+                <th scope="col">Вартість</th>
+                <th scope="col">Процент майстра</th>
+                <th colspan="2"> </th>
+{% endblock %}
+
+{% block table_rows %}
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id_service }}</td>
+                <td>{{ user.name_service }}</td>
+                <td>{{ user.type_service }}</td>
+                <td>{{ user.time_service }} хв. </td>
+                <td>{{ user.cost_service }} грн. </td>
+                <td>{{ user.percent_for_master }} %</td>
+                <td> 
+                    <a class="icon-link" href="{% url 'edit_staff' user.id %}">
+                      <i class="bi bi-pencil-square"></i>
+                    </a>
+                </td>
+                <td>
+                    <a class="icon-link" href="{% url 'delete_staff' user.id %}">
+                        <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+{% endblock %}

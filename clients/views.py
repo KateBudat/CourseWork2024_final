@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.db.models import Q
-from users.models import Client
+from .models import Client
+from users.decorators import role_required
 from .forms import ClientForm
 import template_views
 
 
+@role_required(allowed_roles=['master_user', 'owner_user', 'administrator_user'])
 def clients(request):
     query = request.GET.get('query')
     gender = request.GET.get('gender')

@@ -1,6 +1,6 @@
 # forms.py
 from django import forms
-from users.models import Material, Supplier, Used_Material, Purchased_Material, Write_Off_Material
+from clients.models import Material, Supplier, Used_Material, Purchased_Material, Write_Off_Material
 
 
 class MaterialForm(forms.ModelForm):

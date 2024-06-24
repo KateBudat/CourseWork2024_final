@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from materials.forms import UsedMaterialForm
 from materials.views import get_material_with_info
 from template_views import *
-from users.models import *
+from clients.models import *
 """
     TO DO:
     - Додати кольори для подій, які очікуються, виконані, скасовані
@@ -13,14 +13,16 @@ from users.models import *
 
 def calendar_view(request):
     master_id = request.GET.get('master')
-
-    print("Ідентифікатор майстра:", master_id)
+    status = request.GET.get('status')
 
     registrations = Registration.objects.all()
     masters = Master.objects.all()
 
     if master_id:
-        registrations = registrations.filter(service_details__master=master_id)
+       registrations = registrations.filter(service_details__master=master_id)
+
+    if status:
+       registrations = registrations.filter(status=status)
 
     events = []
 
@@ -50,13 +52,17 @@ def calendar_view(request):
             'status': registration.status,
         })
 
-    return render(request, 'registration/calendar.html', {'events': events, 'masters': masters})
+    context = {
+        'events': events,
+        'masters': masters,
+    }
+    return render(request, 'registration/calendar.html', context)
 
 
 def add_registration(request):
     clients = Client.objects.all()
     services = Service.objects.all()
-    service_details = ServiceDetail.objects.select_related('service', 'master').all()
+    service_details = ServiceDetail.objects.select_related('service', 'master').all().filter(deleted=False)
 
     if request.method == 'POST':
         client_id = request.POST.get('client')

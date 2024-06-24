@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
+from users.decorators import role_required
 
 
+@role_required(allowed_roles=['master_user', 'owner_user', 'administrator_user'])
 def add_object(request, form_class, template_name, redirect_url, extra_context=None):
     if request.method == 'POST':
         form = form_class(request.POST)
@@ -22,6 +24,7 @@ def add_object(request, form_class, template_name, redirect_url, extra_context=N
     return render(request, template_name, context)
 
 
+@role_required(allowed_roles=['master_user', 'owner_user', 'administrator_user'])
 def edit_object(request, model, form_class, template_name, redirect_url, id, extra_context=None):
     obj = get_object_or_404(model, pk=id)
     if request.method == 'POST':
@@ -47,6 +50,7 @@ def edit_object(request, model, form_class, template_name, redirect_url, id, ext
     return render(request, template_name, context)
 
 
+@role_required(allowed_roles=['master_user', 'owner_user', 'administrator_user'])
 def delete_object(request, model, id, redirect_url=None):
     if request.user.is_authenticated:
         model_name = model._meta.model_name
@@ -61,7 +65,7 @@ def delete_object(request, model, id, redirect_url=None):
 
         if redirect_url:
             return redirect(redirect_url)
-        return redirect(f'{model_name}s') # Додаємо перенаправлення за умовчанням після обробки виключень
+        return redirect(f'{model_name}s')
 
     else:
         messages.error(request, "Вам потрібно увійти у систему...")

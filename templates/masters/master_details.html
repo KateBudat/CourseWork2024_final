@@ -41,6 +41,24 @@
                     <td><b> Дата прийняття на роботу:</b> </td>
                     <td>{{ master.hire_date|date:"d F Y" }} </td>
                 </tr>
+                <tr>
+                    <td><b> Працює:</b> </td>
+                    <td>{% if master.is_active == True %} Так {% else %} Ні {% endif %}</td>
+                </tr>
+                {% if master.dismissal_date %}
+                <tr>
+                    <td><b> Дата звільнення з роботи:</b> </td>
+                    <td>{{ master.hire_date|date:"d F Y" }} </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="btn btn-outline-success" href="{% url 'return_master' master.id_master %}"> 
+                            Поновити майстра в роботі
+                        </a>
+                    </td>
+                </tr>
+
+                {% endif %}
             </tbody>
         </table>
         </div>    

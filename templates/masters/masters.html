@@ -21,6 +21,18 @@
     <th scope="col">Номер телефону</th>
     <th scope="col">Спеціалізація</th>
     <th scope="col">Дата прийняття на роботу</th>
+    <th scope="col">
+    <a class="nav-link dropdown-toggle" href="#" role="button" id="activeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Працює
+        </a>
+        <ul class="dropdown-menu dropdown-menu-horizontal" aria-labelledby="activeDropdown">
+            <li><a class="dropdown-item" href="?active=True">Працює</a></li>
+            <li><a class="dropdown-item" href="?active=False">Звільнено</a></li>
+            <li><a class="dropdown-item" href="?active=">Всі</a></li>
+        </ul>
+        
+    </th>
+    <th scope="col">Дата звільнення</th>
     <th scope="col" colspan="3"> </th>
 {% endblock %}
 
@@ -34,6 +46,8 @@
     <td>{{ master.telephone_number }}</td>
     <td>{{ master.specialization }}</td>
     <td>{{ master.hire_date|date:"d F Y" }}</td>
+    <td>{% if master.is_active == True %} Так {% else %} Ні {% endif %}</td>
+    <td>{% if master.dismissal_date %} {{ master.dismissal_date|date:"d F Y" }} {% else %} - {% endif %}</td>
     <td> 
         <a class="icon-link" href="{% url 'master_services' master.id_master %}">
           <i class="bi bi-person-lines-fill"></i>
