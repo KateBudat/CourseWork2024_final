@@ -1,6 +1,7 @@
 <div class="container">
+{% if current_role != 'master_user' %}
     {% block add_button %}{% endblock %}
-
+{% endif %}
     <table class="table table-hover">
         <thead>
             <tr>

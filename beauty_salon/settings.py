@@ -74,7 +74,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 'users.utils.current_role',
-                'users.utils.current_user'
+                'users.utils.current_user',
             ],
         },
     },
@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'beauty_salon',
-        'USER': 'postgres',                  # postgres
-        'PASSWORD': 'KI_108',       # KI_108
+        'USER': 'connection_user',                  # postgres
+        'PASSWORD': 'connectionuserpassword',       # KI_108
         'HOST': 'localhost',
         'PORT': '5432',
     },

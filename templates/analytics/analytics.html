@@ -3,7 +3,7 @@
 {% block content %}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2">Аналітика</h1>
-  <form method="get" action="{% url 'analytics' %}" class="d-flex align-items-end">
+  <form id="analyticsForm" method="get" action="{% url 'analytics' %}" class="d-flex align-items-end">
     <div class="form-group mb-3 me-2">
         <label for="id_start_date" class="form-label">Початкова дата:</label>
         <input type="date" name="start_date" id="id_start_date" class="form-control" value="{{ start_date }}">
@@ -12,39 +12,50 @@
         <label for="id_end_date" class="form-label">Кінцева дата:</label>
         <input type="date" name="end_date" id="id_end_date" class="form-control" value="{{ end_date }}">
     </div>
-      <div class="mb-3 me-2">
+    <div class="mb-3 me-2">
         <button type="submit" class="btn btn-outline-success w-100">Застосувати</button>
-      </div>
+    </div>
+    <input type="hidden" name="active_tab" id="active_tab_input" value="{{ active_tab }}">
   </form>
 </div>
     
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="clients-tab" data-bs-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true">Клієнти</a>
+    <a class="nav-link {% if active_tab == 'clients' %}active{% endif %}" id="clients-tab" data-bs-toggle="tab" href="#clients" role="tab" aria-controls="clients" aria-selected="true" onclick="setActiveTab('clients')">Клієнти</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="masters-tab" data-bs-toggle="tab" href="#masters" role="tab" aria-controls="masters" aria-selected="false">Майстри</a>
+    <a class="nav-link {% if active_tab == 'masters' %}active{% endif %}" id="masters-tab" data-bs-toggle="tab" href="#masters" role="tab" aria-controls="masters" aria-selected="false" onclick="setActiveTab('masters')">Майстри</a>
   </li>
   <li class="nav-item" role="presentation">
-    <a class="nav-link" id="services-tab" data-bs-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="false">Послуги</a>
+    <a class="nav-link {% if active_tab == 'services' %}active{% endif %}" id="services-tab" data-bs-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="false" onclick="setActiveTab('services')">Послуги</a>
   </li>
-    <li class="nav-item" role="presentation">
-    <a class="nav-link" id="materials-tab" data-bs-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false">Матеріали</a>
-  </li>
+  <!--li class="nav-item" role="presentation">
+    <a class="nav-link {% if active_tab == 'materials' %}active{% endif %}" id="materials-tab" data-bs-toggle="tab" href="#materials" role="tab" aria-controls="materials" aria-selected="false" onclick="setActiveTab('materials')">Матеріали</a>
+  </li-->
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="clients" role="tabpanel" aria-labelledby="clients-tab" >
+  <div class="tab-pane fade {% if active_tab == 'clients' %}show active{% endif %}" id="clients" role="tabpanel" aria-labelledby="clients-tab">
         {% include 'analytics/client_service_stats.html' %}
   </div>
-  <div class="tab-pane fade" id="masters" role="tabpanel" aria-labelledby="masters-tab">
+  <div class="tab-pane fade {% if active_tab == 'masters' %}show active{% endif %}" id="masters" role="tabpanel" aria-labelledby="masters-tab">
         {% include 'analytics/master_service_stats.html' %}
   </div>
-  <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
+  <div class="tab-pane fade {% if active_tab == 'services' %}show active{% endif %}" id="services" role="tabpanel" aria-labelledby="services-tab">
         {% include 'analytics/service_registration_stats.html' %}
   </div>
-    <div class="tab-pane fade" id="materials" role="tabpanel" aria-labelledby="materials-tab">
+  <!--div class="tab-pane fade {% if active_tab == 'materials' %}show active{% endif %}" id="materials" role="tabpanel" aria-labelledby="materials-tab">
         {% include 'analytics/material_stats.html' %}
-  </div>
+  </div-->
 </div>
 
+{% endblock %}
+
+{% block additional_scripts %}
+<script type="text/javascript">
+  // JavaScript to update active_tab value on tab click
+  function setActiveTab(tabName) {
+    document.getElementById('active_tab_input').value = tabName;
+    document.getElementById('analyticsForm').submit();
+  }
+</script>
 {% endblock %}

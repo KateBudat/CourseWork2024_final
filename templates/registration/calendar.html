@@ -170,7 +170,9 @@
     <div class="row align-items-center">
         <div class="col-md-9">
             <div class="d-flex justify-content-start align-items-center">
+                {% if current_role != "master_user" %}
                 <a href="{% url 'add_registration' %}" class="btn btn-outline-success">Додати подію +</a>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-3">
@@ -221,13 +223,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Деталі події</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Інформація про запис</h5>
                 <div class="ml-auto">
                     <a class="icon-link" id="editEvent" style="margin-left: 20px;">
-                        <i class="bi bi-pencil-square"></i>
+                        {% if current_role != 'master_user' %} <i class="bi bi-pencil-square"></i> {% endif %}
                     </a>
                     <a class="icon-link" id="deleteEvent" style="margin-left: 10px;">
-                        <i class="bi bi-trash3-fill text-danger"></i>
+                        {% if current_role != 'master_user' %} <i class="bi bi-trash3-fill text-danger"></i>{% endif %}
                     </a>
                 </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -236,10 +238,10 @@
                 <!-- Тут буде відображатися детальна інформація про подію -->
             </div>
             <div class="d-flex modal-footer"></a>
-                <a href="#" id="addUsedMaterials" class="btn btn-outline-primary">Додати використані матеріали</a>
+                <a href="#" id="addUsedMaterials" class="btn btn-outline-primary">Деталі запису</a>
 
-                <button type="button" id="markAsCancelled" class="btn btn-danger">Скасувати</button>
-                <button type="button" id="markAsDone" class="btn btn-success">Виконано</button>
+             <button type="button " id="markAsCancelled" class="btn btn-danger {% if current_role == 'master_user' %}disabled{% endif %}">Скасувати</button> 
+                <button type="button" id="markAsDone" class="btn btn-success {% if current_role == 'administrator_user' %}disabled{% endif %}">Виконано</button>
             </div>
         </div>
     </div>

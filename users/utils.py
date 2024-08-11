@@ -4,8 +4,10 @@ from .models import CustomUser
 
 
 def current_user(request):
-    user = request.user
-    return {'current_user': user}
+    return {
+        'current_user': request.session.get('username'),
+        'current_master_user_id': request.session.get('master_user_id')
+    }
 
 
 def current_role(request):

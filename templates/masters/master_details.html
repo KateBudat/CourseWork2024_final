@@ -9,12 +9,16 @@
         <div class="col-md-4 d-flex justify-content-between align-items-center">
             <h2 class="mb-0">{{ master.first_name }} {{ master.second_name }} </h2>
                 <div>
-                    <a class="icon-link me-3" href="{% url 'edit_master' master.id_master %}">
-                        <i class="bi bi-pencil-square"></i>
-                    </a>
+                    {% if current_role != 'master_user' %}
+                        <a class="icon-link me-3" href="{% url 'edit_master' master.id_master %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    {% endif %}
+                    {% if current_role == 'owner_user' %}
                     <a class="icon-link" href="{% url 'delete_master' master.id_master %}">
                         <i class="bi bi-trash3-fill text-danger"></i>
                     </a>
+                    {% endif %}
                 </div>
         </div>
     <br>
@@ -87,24 +91,30 @@
                     <td>{{ service_detail.service.time_service }} хв. </td>
                     <td>{{ service_detail.service.cost_service }} грн. </td>
                     <td>{{ service_detail.service.percent_for_master }} %</td>
+                    {% if current_role == 'owner_user' %}
                     <td> 
                         <a class="icon-link" href="{% url 'edit_service' service_detail.service.id_service %}">
                           <i class="bi bi-pencil-square"></i>
                         </a>
                     </td>
+                    {% endif %}
+                    {% if current_role != 'master_user' %}
                     <td>
                         <a class="icon-link" href="{% url 'delete_service_detail' service_detail.id_service_details %}">
                             <i class="bi bi-dash-lg text-danger"></i>
                         </a>
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+    {% if current_role != 'master_user' %}
         <div class="d-grid gap-2 d-md-flex justify-content-between">
             <a href="{% url 'masters' %}" class="btn btn-outline-danger">Назад до майстрів</a>
             <button class="btn btn-outline-success me-md-2" type="button" data-bs-toggle="modal" data-bs-target="#addServiceModal">Додати послугу майстру +</button>
         </div>
+    {% endif %}
     <br>
     </div>
 </div>
@@ -140,11 +150,13 @@
                                 <td>{{ service.time_service }} хв. </td>
                                 <td>{{ service.cost_service }} грн. </td>
                                 <td>{{ service.percent_for_master }} %</td>
+                                 {% if current_role != 'master_user' %}
                                 <td> 
                                     <a class="icon-link" href="{% url 'add_service_to_master' master.id_master service.id_service %}">
                                         <i class="bi bi-plus-lg"></i>
                                     </a>
                                 </td>
+                            {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>

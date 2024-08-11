@@ -52,22 +52,16 @@ def edit_object(request, model, form_class, template_name, redirect_url, id, ext
 
 @role_required(allowed_roles=['master_user', 'owner_user', 'administrator_user'])
 def delete_object(request, model, id, redirect_url=None):
-    if request.user.is_authenticated:
-        model_name = model._meta.model_name
-        try:
-            obj = model.objects.get(pk=id)
-            obj.delete()
-            messages.success(request, f"{model_name.capitalize()} успішно видалено!")
-        except ObjectDoesNotExist:
-            messages.error(request, "Об'єкт не існує")
-        except Exception as e:
-            messages.error(request, f"Виникла помилка: {str(e)}")
+    model_name = model._meta.model_name
+    try:
+        obj = model.objects.get(pk=id)
+        obj.delete()
+        messages.success(request, f"{model_name.capitalize()} успішно видалено!")
+    except ObjectDoesNotExist:
+        messages.error(request, "Об'єкт не існує")
+    except Exception as e:
+        messages.error(request, f"Виникла помилка: {str(e)}")
 
-        if redirect_url:
-            return redirect(redirect_url)
-        return redirect(f'{model_name}s')
-
-    else:
-        messages.error(request, "Вам потрібно увійти у систему...")
-        return redirect('home')
-
+    if redirect_url:
+        return redirect(redirect_url)
+    return redirect(f'{model_name}s')

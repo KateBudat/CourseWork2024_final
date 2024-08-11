@@ -5,9 +5,13 @@
     <div style="display: flex; justify-content: space-between;">
         <div class="d-flex align-items-center">
             <h2 class="mb-2 me-4">{% block title %}{% endblock %}</h2>
+            {% if current_role == 'onwer_user' %}
             <a href="{% block add_url %}{% endblock %}" class="btn btn-outline-success">
                 {% block add_link_text %}{% endblock %}
             </a>
+            {% else %}
+            {% block button %} {% endblock %}
+            {% endif %}
         </div>
        <form class="d-flex" role="search" method="get">
             <input class="form-control me-2 mb-2" type="search" name="query" value="{{ query | default_if_none:'' }}" placeholder="Пошук" aria-label="Search">

@@ -11,4 +11,6 @@ urlpatterns = [
     path('details/<int:id_master>/', views.master_services, name='master_services'),
     path('add_service_to_master/<int:id_master>/<int:id_service>/', views.add_service_to_master, name='add_service_to_master'),
     path('delete_service_detail/<int:id_service_details>/', views.delete_service_detail, name='delete_service_detail'),
+
+    path('analytics_master/<int:id_master>/', views.analytics_master, name='analytics_master'),
 ]

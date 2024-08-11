@@ -21,13 +21,17 @@
             <td>{{ result.first_name }}</td>
             <td>{{ result.second_name }}</td>
             <td>{{ result.total_registrations }}</td>
-            <td>{{ result.total_registrations }}</td>
             <td>{{ result.completed_registrations }}</td>
             <td>{{ result.cancelled_registrations }}</td>
-            <td>{{ result.pending_registrations }}</td>
-            <td>{{ result.total_earnings }}</td>
-            <td>{{ result.salon_earnings }}</td>
-             <td>{{ result.average_visit_cost }}</td>
+            <td>{{ result.pending_registrations }} </td>
+            <td>{{ result.total_earnings }} грн.</td>
+            <td>{{ result.master_earnings }} грн.</td>
+            <td>{{ result.salon_earnings }} грн.</td>
+            <td>{{ result.average_visit_cost }} грн.</td>
+        </tr>
+                 {% empty %}
+        <tr>
+            <td colspan="4">Дані відсутні</td>
         </tr>
         {% endfor %}
     </tbody>

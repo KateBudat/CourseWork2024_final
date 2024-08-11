@@ -24,9 +24,24 @@
             <td>{{ result.completed_registrations }}</td>
             <td>{{ result.cancelled_registrations }}</td>
             <td>{{ result.pending_registrations }}</td>
-            <td>{{ result.total_spent }}</td>
-            <td>{{ result.net_profit }}
+            <td>{{ result.total_spent }} грн.</td>
+            <td>{{ result.net_profit }} грн.</td>
+        </tr>
+         {% empty %}
+        <tr>
+            <td colspan="4">Дані відсутні</td>
         </tr>
         {% endfor %}
+       {% for result in total %}
+        <tr>
+            <td colspan="4"><strong>Сума:</strong></td>
+            <td><strong>{{ result.total_registrations }}</strong></td>
+            <td><strong>{{ result.completed_registrations }}</strong></td>
+            <td><strong>{{ result.cancelled_registrations }}</strong></td>
+            <td><strong>{{ result.pending_registrations }}</strong></td>
+            <td><strong>{{ result.total_income }}</strong></td>
+            <td><strong>{{ result.net_income }}</strong></td>
+        </tr>
+    {% endfor %}
     </tbody>
 </table>

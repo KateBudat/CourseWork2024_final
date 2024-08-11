@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Аналітика</h1>
+  <form id="analyticsForm" method="get" action="{% url 'analytics_master' current_master_user_id  %}" class="d-flex align-items-end">
+    <div class="form-group mb-3 me-2">
+        <label for="id_start_date" class="form-label">Початкова дата:</label>
+        <input type="date" name="start_date" id="id_start_date" class="form-control" value="{{ start_date }}">
+    </div>
+    <div class="form-group mb-3 me-2">
+        <label for="id_end_date" class="form-label">Кінцева дата:</label>
+        <input type="date" name="end_date" id="id_end_date" class="form-control" value="{{ end_date }}">
+    </div>
+    <div class="mb-3 me-2">
+        <button type="submit" class="btn btn-outline-success w-100">Застосувати</button>
+    </div>
+  </form>
+</div>
+<h3>Звіт про дохід за надані послуги</h3>
+    <br>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Послуги</th>
+            <th>Назва Послуги</th>
+            <th>Кількість Наданих Послуг</th>
+            <th>Загальний Дохід</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.service_id }}</td>
+            <td>{{ result.service_name }}</td>
+            <td>{{ result.total_services_provided }}</td>
+            <td>{{ result.total_income }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Дані відсутні</td>
+        </tr>
+        {% endfor %}
+        <!-- Рядок з сумами -->
+        <tr>
+            <td colspan="2"><strong>Сума:</strong></td>
+            <td><strong>{{ total_services }}</strong></td>
+            <td><strong>{{ total_income }}</strong></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
